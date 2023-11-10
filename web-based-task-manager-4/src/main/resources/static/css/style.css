@@ -6,25 +6,87 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    height: auto;
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #f7f7f7;
 }
 
+h2{
+	font-size: 30px;
+	padding-top: 20px;
+}
+
 /* Style for the form and tasks container */
 #taskForm, #tasksContainer {
-    margin: 20px;
+    margin: 15px;
     width: 80%; /* Adjust width as needed */
-    max-width: 600px; /* Maximum width of the form */
+    max-width: 850px; /* Maximum width of the form */
+}
+
+
+
+
+
+#tasksContainer div span#blue.done {
+    background-color: green; /* Choose the color for completed tasks */
+}
+
+#tasksContainer div span#blue.not-done {
+    background-color: red; /* Choose the color for not completed tasks */
+}
+
+
+.option-a{
+	background-color: #00ea00;
+	color: white !important;
+	border: 1px solid #ddd;
+	padding: 10px;
+	margin-right: 10px;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.option-b{
+	background-color: #007bff;
+	color: white !important;
+	border: 1px solid #ddd;
+	padding: 10px;
+	margin-right: 10px;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.not-done-button {
+    background-color: red; /* Set the color for 'Mark as Done' */
+    /* Add any other styles as needed */
+}
+
+.done-button {
+    background-color: green; /* Set the color for 'Mark as Not Done' */
+    /* Add any other styles as needed */
+}
+
+.btn {
+  float: right;
+}
+
+.action-button {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+
+span {
+  display: flex;
+  margin: 4px;
 }
 
 /* Style for the input fields */
 #taskForm input[type=text],
 #taskForm input[type=date] {
     width: 100%;
-    padding: 10px;
-    margin: 10px 0;
+    padding: 15px;
+    margin: 15px 0;
+    font-size: 17px;
     border: 1px solid #ddd;
     border-radius: 5px;
     box-sizing: border-box; /* Include padding in the width */
@@ -39,8 +101,6 @@ body {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px; /* Larger font size */
-    margin: 5px;
 }
 
 #taskForm button:hover,
@@ -53,7 +113,95 @@ body {
     border: 1px solid #ddd;
     padding: 10px;
     margin-top: 10px;
-    background-color: #fff;
+    background-color: purple;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Optional: add a subtle shadow */
 }
+
+.saved-tasks{
+	border: 1px solid #ddd; 
+	padding: 10px; 
+	margin-top: 10px; 
+	background-color: #fff; 
+	border-radius: 5px; 
+	box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+
+
+
+
+
+
+
+
+#tasksContainer {
+	text-align: center;
+}
+#tasksContainer div {
+	text-align: left;
+    border: 1px solid #ddd;
+    padding: 10px;
+    overflow: hidden;
+    margin-top: 10px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#tasksContainer span {
+    color: #0038dd;
+    margin-top: 10px;
+    border-radius: 5px;
+    margin-left: 5px;
+    margin-bottom: 20px;
+}
+
+#tasksContainer p span{
+	margin-left: 17px;
+    font-size: 18px;
+}
+
+.task-main {
+    margin-top: 10px !important;
+    margin-left: 5px !important;
+    margin-bottom: 20px !important;
+    border: 1px solid #ffffff;
+    border-radius: 5px;
+    background-color: #007bff;
+    padding: 10px;
+    color: white !important;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#tasksContainer span#blue {
+    color: white;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-top: 10px;
+    margin-right: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+#tasksContainer button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-left: 5px;
+}
+#tasksContainer button:hover {
+	transition: background-color 0.3s ease-in-out;
+    background-color: red;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-left: 5px;
+}
+#tasksContainer button:nth-child(2) {
+    background-color: red;
+}
+
