@@ -18,30 +18,16 @@
 </form>
 
 <!-- Search input and button -->
-<div id="search-desc">
-	<input type="text" id="searchDescription" placeholder="Enter Description">
-	<button onclick="hideTasksByDescription()">Search Description</button>
-	<!-- Refresh page button -->
-	<button onclick="refreshPage()">Refresh Page</button>
-</div>
-
-<div id="search-desc">
-	<input type="text" id="searchDate" placeholder="YYYY-MM-DD">
-	<button onclick="hideTasksByDate()">Search Date</button>
-	<!-- Refresh page button -->
-	<button onclick="refreshPage()">Refresh Page</button>
-</div>
-
-<div id="search-desc">
-	<input type="text" id="showDone" placeholder="Status">
-	<button onclick="hideTasksByStatus()">Show Done</button>
+<div>
+	<input type="text" id="searchDescription" placeholder="Enter word to search in description">
+	<button onclick="hideTasksByDescription()">Search in Description</button>
 	<!-- Refresh page button -->
 	<button onclick="refreshPage()">Refresh Page</button>
 </div>
 
 <!-- Container for displaying tasks -->
 <div id="tasksContainer">
-    <div th:each="task: ${tasks}" th:id="'task-' + ${task.id}" data-complete="${task.isComplete}">
+    <div th:each="task: ${tasks}" th:id="'task-' + ${task.id}">
         <p><span class="task-main" th:text="'Task: ' + ${task.name}">Task name</span></p>
         <p><span th:text="'Description: ' +${task.description}">Task description</span></p>
         <p><span th:text="'Due Date: ' +${#dates.format(task.dueDate, 'yyyy-MM-dd')}">Due date</span></p>
@@ -99,12 +85,15 @@ function toggleTaskComplete(taskId, btn) {
 function hideTasksByDescription() {
     // Get the input value
     var searchWord = document.getElementById('searchDescription').value.toLowerCase();
+
     // Get all task divs
     var tasks = document.querySelectorAll('#tasksContainer > div');
+
     // Iterate through each task
     tasks.forEach(function(task) {
         // Get the description from the task element
         var description = task.querySelector('p:nth-child(2) span').textContent.toLowerCase();
+
         // Check if the description contains the specified word
         if (description.includes(searchWord)) {
             // Show the task
@@ -116,59 +105,44 @@ function hideTasksByDescription() {
     });
 }
 
-function hideTasksByDate() {
-    // Get the input value
-    var searchWord = document.getElementById('searchDate').value.toLowerCase();
-    // Get all task divs
-    var tasks = document.querySelectorAll('#tasksContainer > div');
-    // Iterate through each task
-    tasks.forEach(function(task) {
-        // Get the description from the task element
-        var description = task.querySelector('p:nth-child(3) span').textContent.toLowerCase();
-        console.log(description);
-        // Check if the description contains the specified word
-        if (description.includes(searchWord)) {
-            // Show the task
-            task.style.display = 'block';
-        } else {
-            // Hide the task
-            task.style.display = 'none';
-        }
-    });
+function renderTask2(task) {
+	var dueDate = new Date(task.dueDate);
+	
+	// BUG WHERE THE DATE GOES BACK A DAY MIGHT BE HERE OR NOT HERE
+    var formattedDate = dueDate.toISOString().split('T')[0]; // This will give you a date in the format "yyyy-mm-dd"
+    
+    return '<div>' +
+    '<span>' + 'Status' + '</span>: ' +
+           '<span>' + task.name + '</span>: ' +
+           '<span>' + task.description + '</span> - ' +
+           '<span>' + formattedDate  + '</span> ' +
+           // '<span>' + (task.isComplete ? 'Done' : 'Not Done') + '</span> ' +
+           // '<span>' + (task.isComplete) + '</span> ' +
+           '<button onclick="toggleTaskComplete(' + task.id + ', this)">' +
+           (task.isComplete ? 'Mark as Not Done' : 'Mark as Done') + '</button>' +
+           '</div>';
+           
+    return '<div id="task-' + task.id + '">' +
+    // ... other task details ...
+    '<button onclick="deleteTask(' + task.id + ', this)">Delete</button>' +
+    '</div>';
 }
 
-function hideTasksByStatus() {
-    // Get the input value
-    var searchWord = document.getElementById('showDone').value.toLowerCase();
-    // Get all task divs
-    var tasks = document.querySelectorAll('#tasksContainer > div');
-    // Iterate through each task
-    tasks.forEach(function(task) {
-        // Get the button element in the task
-        var button = task.querySelector('button');
-        // Check if a button exists
-        if (button) {
-            // Get the text content of the button
-            var buttonText = button.textContent.toLowerCase();
+function renderTask3(task) {
+    // Format the date to YYYY-MM-DD
+    var dueDate = new Date(task.dueDate).toISOString().split('T')[0];
 
-            // Check if the button text is "mark as not done" (complete)
-            var isComplete = buttonText.includes('mark as not done');
-            console.log(isComplete);
-            // Check if the task completeness matches the specified word
-            if (isComplete && searchWord === 'mark as not done') {
-                // Show the task
-                task.style.display = 'block';
-            } else if (!isComplete && searchWord === 'mark as done') {
-                // Show the task
-                task.style.display = 'block';
-            } else {
-                // Hide the task
-                task.style.display = 'none';
-            }
-        }
-    });
+    return '<div class="task-item" id="task-' + task.id + '">' +
+    		'<span class="option-a">' + 'Not Done' + '</span> ' +
+           '<span>' + 'Task: ' + task.name + '</span> ' +
+           '<span>' + 'Description: ' + task.description + '</span>' +
+           '<span>' + 'Due Date: ' + dueDate + '</span> ' +
+           //'<span>' + (task.isComplete ? 'Done' : 'Not Done') + '</span> ' +
+           '<button onclick="toggleTaskComplete(' + task.id + ', this)">' +
+           (task.isComplete ? 'Mark as Not Done' : 'Mark as Done') + '</button> ' +
+           '<button onclick="deleteTask(' + task.id + ', this)">Delete Task</button>' +
+           '</div>';
 }
-
 
 function renderTask(task) {
     // Format the date to YYYY-MM-DD

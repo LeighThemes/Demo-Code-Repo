@@ -80,34 +80,6 @@ span {
   margin: 4px;
 }
 
-#search-desc{
-    padding: 15px;
-    margin: 15px 0;
-    font-size: 17px;
-    border: 1px solid #ddd;
-    background-color: #fff;
-    border-radius: 5px;
-    box-sizing: border-box;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-#search-desc input{
-    padding: 7px;
-    font-size: 17px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
-
-#search-desc button{
-	padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    margin-left: 5px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
 /* Style for the input fields */
 #taskForm input[type=text],
 #taskForm input[type=date] {
@@ -219,7 +191,6 @@ span {
     border: none;
     border-radius: 5px;
     margin-left: 5px;
-    cursor: pointer;
 }
 #tasksContainer button:hover {
 	transition: background-color 0.3s ease-in-out;

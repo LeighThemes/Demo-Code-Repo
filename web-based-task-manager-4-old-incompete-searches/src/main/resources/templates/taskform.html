@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Task Form</title>
+    <!-- Your CSS imports -->
+</head>
+<body>
+
+<form action="#" th:action="@{/tasks}" th:object="${task}" method="post">
+    <label for="description">Description:</label>
+    <input type="text" id="description" name="description" th:value="*{description}" />
+    
+    <label for="dueDate">Due Date:</label>
+    <input type="date" id="dueDate" name="dueDate" th:value="*{dueDate}" />
+    
+    <input type="checkbox" id="isComplete" name="isComplete" th:checked="*{complete}" />
+    <label for="isComplete">Completed</label>
+    
+    
+</form>
+
+<form action="/tasks" method="post">
+    <input type="text" name="description" placeholder="Enter task description" required>
+    <!-- You can add more fields like due date here -->
+    <button type="submit">Add New Task</button>
+</form>
+
+
+<!-- Link back to the task list -->
+<a href="/">Back to Task List</a>
+
+</body>
+</html>
