@@ -1,6 +1,3 @@
-/* Add this CSS to your existing stylesheet, or include it in a <style> tag in the head of your HTML document */
-
-/* Apply a flexbox layout to the body to center its children */
 body {
     display: flex;
     flex-direction: column;
@@ -11,75 +8,55 @@ body {
     font-family: Arial, sans-serif;
     background-color: #f7f7f7;
 }
-
 h2{
 	font-size: 30px;
 	padding-top: 20px;
 }
-
-/* Style for the form and tasks container */
 #taskForm, #tasksContainer {
     margin: 15px;
-    width: 80%; /* Adjust width as needed */
-    max-width: 850px; /* Maximum width of the form */
+    width: 80%; 
+    max-width: 850px;
 }
-
-
-
-
-
 #tasksContainer div span#blue.done {
-    background-color: green; /* Choose the color for completed tasks */
+    background-color: green;
 }
-
 #tasksContainer div span#blue.not-done {
-    background-color: red; /* Choose the color for not completed tasks */
+    background-color: red;
 }
-
-
-.option-a{
-	background-color: #00ea00;
-	color: white !important;
-	border: 1px solid #ddd;
-	padding: 10px;
-	margin-right: 10px;
-	box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.option-b{
-	background-color: #007bff;
-	color: white !important;
-	border: 1px solid #ddd;
-	padding: 10px;
-	margin-right: 10px;
-	box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.not-done-button {
-    background-color: red; /* Set the color for 'Mark as Done' */
-    /* Add any other styles as needed */
-}
-
-.done-button {
-    background-color: green; /* Set the color for 'Mark as Not Done' */
-    /* Add any other styles as needed */
-}
-
 .btn {
-  float: right;
+	float: right;
 }
-
 .action-button {
     padding: 5px 10px;
     cursor: pointer;
 }
-
-
-span {
-  display: flex;
-  margin: 4px;
+.desc-button {
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 9.5px;
 }
-
+.date-button {
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 10px 28.5px 10px 28.5px;
+}
+.mid-buttons {
+    margin-right: 10px;
+    padding: 10px 13.7px 10px 13.7px;
+}
+.refresh-button{
+    margin-right: 10px;
+    padding: 10px 25px 10px 25px;
+    background-color: #7a899a !important;
+}
+.refresh-button:hover{
+    background-color: #575868 !important;
+    transition: background-color 0.3s ease-in-out !important;
+}
+span {
+	display: flex;
+	margin: 4px;
+}
 #search-desc{
     padding: 15px;
     margin: 15px 0;
@@ -87,6 +64,7 @@ span {
     border: 1px solid #ddd;
     background-color: #fff;
     border-radius: 5px;
+    display: grid;
     box-sizing: border-box;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
@@ -97,18 +75,19 @@ span {
     border-radius: 5px;
     box-sizing: border-box;
 }
-
 #search-desc button{
-	padding: 10px 20px;
     background-color: #007bff;
     color: white;
     border: none;
-    margin-left: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
     border-radius: 5px;
     cursor: pointer;
 }
-
-/* Style for the input fields */
+#search-desc button:hover{
+	background-color: #0056b3;
+	transition: background-color 0.3s ease-in-out;
+}
 #taskForm input[type=text],
 #taskForm input[type=date] {
     width: 100%;
@@ -117,10 +96,8 @@ span {
     font-size: 17px;
     border: 1px solid #ddd;
     border-radius: 5px;
-    box-sizing: border-box; /* Include padding in the width */
+    box-sizing: border-box;
 }
-
-/* Style for the buttons */
 #taskForm button,
 .task-item button {
     padding: 10px 20px;
@@ -130,22 +107,19 @@ span {
     border-radius: 5px;
     cursor: pointer;
 }
-
 #taskForm button:hover,
 .task-item button:hover {
-    background-color: #0056b3; /* Darker shade when hovered */
+    background-color: #0056b3;
+    transition: background-color 0.3s ease-in-out;
 }
-
-/* Add some padding and border to the task items for better visibility */
 .task-item {
     border: 1px solid #ddd;
     padding: 10px;
     margin-top: 10px;
     background-color: purple;
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Optional: add a subtle shadow */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
-
 .saved-tasks{
 	border: 1px solid #ddd; 
 	padding: 10px; 
@@ -154,15 +128,6 @@ span {
 	border-radius: 5px; 
 	box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
-
-
-
-
-
-
-
-
-
 #tasksContainer {
 	text-align: center;
 }
@@ -171,12 +136,11 @@ span {
     border: 1px solid #ddd;
     padding: 10px;
     overflow: hidden;
-    margin-top: 10px;
+    margin-top: 25px;
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
-
 #tasksContainer span {
     color: #0038dd;
     margin-top: 10px;
@@ -184,25 +148,22 @@ span {
     margin-left: 5px;
     margin-bottom: 20px;
 }
-
 #tasksContainer p span{
-	margin-left: 17px;
-    font-size: 18px;
+    font-size: 17px;
 }
-
 .task-main {
-    margin-top: 10px !important;
-    margin-left: 5px !important;
+    margin-top: -27px !important;
+    margin-left: -13px !important;
+    margin-right: -13px !important;
     margin-bottom: 20px !important;
     border: 1px solid #ffffff;
     border-radius: 5px;
-    background-color: #007bff;
-    padding: 10px;
+    background-color: #7a899a;
+    padding: 15px;
     color: white !important;
     overflow: hidden;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
-
 #tasksContainer span#blue {
     color: white;
     border: 1px solid #ddd;
@@ -218,7 +179,6 @@ span {
     padding: 10px;
     border: none;
     border-radius: 5px;
-    margin-left: 5px;
     cursor: pointer;
 }
 #tasksContainer button:hover {
@@ -228,7 +188,6 @@ span {
     padding: 10px;
     border: none;
     border-radius: 5px;
-    margin-left: 5px;
 }
 #tasksContainer button:nth-child(2) {
     background-color: red;

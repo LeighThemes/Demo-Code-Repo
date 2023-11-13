@@ -1,219 +1,60 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Task List</title>
-    <!-- Your CSS imports here -->
+    <!-- CSS imports -->
     <link rel="stylesheet" href="/css/style.css">
 </head>
-<body>
-
-<!-- Inline form to add a new task -->
-<h2>Task Mananger</h2>
-<form id="taskForm">
-    <input type="text" id="name" name="name" placeholder="Enter task name" required />
-    <input type="text" id="description" name="description" placeholder="Enter task description" required />
-    <input type="date" id="dueDate" name="dueDate" required />
-    <button type="submit" class="btn">Add New Task</button>
-</form>
-
-<!-- Search input and button -->
-<div id="search-desc">
-	<input type="text" id="searchDescription" placeholder="Enter Description">
-	<button onclick="hideTasksByDescription()">Search Description</button>
-	<!-- Refresh page button -->
-	<button onclick="refreshPage()">Refresh Page</button>
-</div>
-
-<div id="search-desc">
-	<input type="text" id="searchDate" placeholder="YYYY-MM-DD">
-	<button onclick="hideTasksByDate()">Search Date</button>
-	<!-- Refresh page button -->
-	<button onclick="refreshPage()">Refresh Page</button>
-</div>
-
-<div id="search-desc">
-	<input type="text" id="showDone" placeholder="Status">
-	<button onclick="hideTasksByStatus()">Show Done</button>
-	<!-- Refresh page button -->
-	<button onclick="refreshPage()">Refresh Page</button>
-</div>
-
-<!-- Container for displaying tasks -->
-<div id="tasksContainer">
-    <div th:each="task: ${tasks}" th:id="'task-' + ${task.id}" data-complete="${task.isComplete}">
-        <p><span class="task-main" th:text="'Task: ' + ${task.name}">Task name</span></p>
-        <p><span th:text="'Description: ' +${task.description}">Task description</span></p>
-        <p><span th:text="'Due Date: ' +${#dates.format(task.dueDate, 'yyyy-MM-dd')}">Due date</span></p>
-        <button th:attr="onclick='toggleTaskComplete(\'' + ${task.id} + '\', this)'"
-                th:id="'taskButton-' + ${task.id}"
-                th:style="'background-color: ' + (${task.isComplete} ? 'red' : 'green')">
-            [[${task.isComplete ? 'Mark as Not Done' : 'Mark as Done'}]]
-        </button>
-        <button th:onclick="'deleteTask(' + ${task.id} + ', this);'" class="action-button">Delete Task</button>
-    </div>
-</div>
-
-<!-- Move this to its own file -->
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    var form = document.getElementById('taskForm');
-    form.onsubmit = function (e) {
-        e.preventDefault();
-        var name = document.getElementById('name').value;
-        var description = document.getElementById('description').value;
-        var dueDate = document.getElementById('dueDate').value;
-        fetch('/tasks', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ name: name, description: description, dueDate: dueDate })
-        })
-        .then(response => response.json())
-        .then(task => {
-            var tasksContainer = document.getElementById('tasksContainer');
-            tasksContainer.innerHTML += renderTask(task);
-            form.reset();
-        })
-        .catch(error => console.error('Error:', error));
-    };
-});
-
-function toggleTaskComplete(taskId, btn) {
-    fetch('/tasks/' + taskId + '/complete', {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    })
-    .then(response => response.json())
-    .then(task => {
-        var taskElement = btn.parentNode;
-        //taskElement.querySelector('span').textContent = task.isComplete ? 'Done' : 'Not Done';
-        btn.textContent = task.isComplete ? 'Mark as Not Done' : 'Mark as Done';
-    })
-    .catch(error => console.error('Error:', error));
-}
-
-function hideTasksByDescription() {
-    // Get the input value
-    var searchWord = document.getElementById('searchDescription').value.toLowerCase();
-    // Get all task divs
-    var tasks = document.querySelectorAll('#tasksContainer > div');
-    // Iterate through each task
-    tasks.forEach(function(task) {
-        // Get the description from the task element
-        var description = task.querySelector('p:nth-child(2) span').textContent.toLowerCase();
-        // Check if the description contains the specified word
-        if (description.includes(searchWord)) {
-            // Show the task
-            task.style.display = 'block';
-        } else {
-            // Hide the task
-            task.style.display = 'none';
-        }
-    });
-}
-
-function hideTasksByDate() {
-    // Get the input value
-    var searchWord = document.getElementById('searchDate').value.toLowerCase();
-    // Get all task divs
-    var tasks = document.querySelectorAll('#tasksContainer > div');
-    // Iterate through each task
-    tasks.forEach(function(task) {
-        // Get the description from the task element
-        var description = task.querySelector('p:nth-child(3) span').textContent.toLowerCase();
-        console.log(description);
-        // Check if the description contains the specified word
-        if (description.includes(searchWord)) {
-            // Show the task
-            task.style.display = 'block';
-        } else {
-            // Hide the task
-            task.style.display = 'none';
-        }
-    });
-}
-
-function hideTasksByStatus() {
-    // Get the input value
-    var searchWord = document.getElementById('showDone').value.toLowerCase();
-    // Get all task divs
-    var tasks = document.querySelectorAll('#tasksContainer > div');
-    // Iterate through each task
-    tasks.forEach(function(task) {
-        // Get the button element in the task
-        var button = task.querySelector('button');
-        // Check if a button exists
-        if (button) {
-            // Get the text content of the button
-            var buttonText = button.textContent.toLowerCase();
-
-            // Check if the button text is "mark as not done" (complete)
-            var isComplete = buttonText.includes('mark as not done');
-            console.log(isComplete);
-            // Check if the task completeness matches the specified word
-            if (isComplete && searchWord === 'mark as not done') {
-                // Show the task
-                task.style.display = 'block';
-            } else if (!isComplete && searchWord === 'mark as done') {
-                // Show the task
-                task.style.display = 'block';
-            } else {
-                // Hide the task
-                task.style.display = 'none';
-            }
-        }
-    });
-}
-
-
-function renderTask(task) {
-    // Format the date to YYYY-MM-DD
-    var dueDate = new Date(task.dueDate).toISOString().split('T')[0];
-
-    return '<div class="task-item" id="task-' + task.id + '">' +
-    		//'<span class="option-a">' + 'Not Done' + '</span> ' +
-           '<p><span class="task-main">' + 'Task: ' + task.name + '</span></p> ' +
-           '<p><span>' + 'Description: ' + task.description + '</span></p>' +
-           '<p><span>' + 'Due Date: ' + dueDate + '</span></p> ' +
-           //'<span>' + (task.isComplete ? 'Done' : 'Not Done') + '</span> ' +
-           '<button onclick="toggleTaskComplete(' + task.id + ', this)" ' +
-           'style="background-color: ' + (task.isComplete ? 'red' : 'green') + ';">' +
-           (task.isComplete ? 'Mark as Not Done' : 'Mark as Done') + '</button> ' +
-           '<button onclick="deleteTask(' + task.id + ', this)">Delete Task</button>' +
-           '</div>';
-}
-
-function deleteTask(taskId, btn) {
-    fetch('/tasks/' + taskId, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    })
-    .then(response => {
-        if (response.ok) {
-            // Remove the task element from the UI
-            var taskElement = document.getElementById('task-' + taskId);
-            if (taskElement) {
-                taskElement.remove();
-            }
-        } else {
-            console.error('Task could not be deleted.');
-        }
-    })
-    .catch(error => console.error('Error:', error));
-}
-
-function refreshPage() {
-    // Reload the page
-    location.reload();
-}
-
-</script>
-
-</body>
+	<body>
+	
+		<!-- Inline form to add a new task to the page-->
+		<h2>Task Manager</h2>
+		<form id="taskForm">
+		    <input type="text" id="name" name="name" placeholder="Enter task name" required />
+		    <input type="text" id="description" name="description" placeholder="Enter task description" required />
+		    <input type="date" id="dueDate" name="dueDate" required />
+		    <button type="submit" class="btn">Add New Task</button>
+		</form>
+		
+		<!-- Search input and button -->
+		<div id="search-desc">
+			<div>
+				<!-- allows you to search by description -->
+				<input type="text" id="searchDescription" placeholder="Enter Description">
+				<button class="desc-button" onclick="hideTasksByDescription()">Search Description</button>
+			</div>
+			<div>
+				<!-- allows you to search by date -->
+			<input type="text" id="searchDate" placeholder="YYYY-MM-DD">
+			<button class="date-button" onclick="hideTasksByDate()">Search Date</button>
+			</div>
+			<div>
+				<!-- buttons allow you to search by status -->
+				
+				<button class="mid-buttons" onclick="hideTasksByStatus('mark as not done')">Show Done</button>
+			    <button class="mid-buttons" onclick="hideTasksByStatus('mark as done')">Show Not Done</button>
+			    <!-- Refresh page button -->
+			    <button class="refresh-button" onclick="refreshPage()">Refresh Page</button>
+		    </div>
+		</div>
+		
+		<!-- Container for displaying tasks -->
+		<div id="tasksContainer">
+		    <div th:each="task: ${tasks}" th:id="'task-' + ${task.id}" data-complete="${task.isComplete}">
+		        <p><span class="task-main" th:text="'Task: ' + ${task.name}">Task name</span></p>
+		        <p><span th:text="'Description: ' +${task.description}">Task description</span></p>
+		        <p><span th:text="'Due Date: ' +${#dates.format(task.dueDate, 'yyyy-MM-dd')}">Due date</span></p>
+		        <button th:attr="onclick='toggleTaskComplete(\'' + ${task.id} + '\', this)'"
+		                th:id="'taskButton-' + ${task.id}"
+		                th:style="'background-color: ' + (${task.isComplete} ? 'red' : 'green')">
+		            [[${task.isComplete ? 'Mark as Not Done' : 'Mark as Done'}]]
+		        </button>
+		        <button th:onclick="'deleteTask(' + ${task.id} + ', this);'" class="action-button">Delete Task</button>
+		    </div>
+		</div>
+		
+		<!-- JavaScript Imports -->
+		<script src="/js/script.js"></script> 
+	
+	</body>
 </html>
