@@ -2,10 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Task Form</title>
-    <!-- Your CSS imports -->
 </head>
 <body>
 
+<!-- This form can be used to add other pages to the application it you would like them -->
 <form action="#" th:action="@{/tasks}" th:object="${task}" method="post">
     <label for="description">Description:</label>
     <input type="text" id="description" name="description" th:value="*{description}" />
@@ -21,12 +21,10 @@
 
 <form action="/tasks" method="post">
     <input type="text" name="description" placeholder="Enter task description" required>
-    <!-- You can add more fields like due date here -->
     <button type="submit">Add New Task</button>
 </form>
 
 
-<!-- Link back to the task list -->
 <a href="/">Back to Task List</a>
 
 </body>
